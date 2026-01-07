@@ -89,32 +89,51 @@ def _normalize(skill):
     skill = skill.lower().strip()
     return _SKILL_NORMALIZATION.get(skill, skill)
 
-def skill_matcher(resume_skills, jd_skills):
-    matched_skills = []
-    missing_skills = []
-    total_points = 0
-    earned_points = 0
 
+def skill_matcher(jd_skills , resume_skills):
+    if not jd_skills or not resume_skills:
+        print("\nInvalid input! ")
+        return []
+    
+    missing_skills = []
+    matched_skill = []
+    earned_points = 0
+    total_points = 0
+    
     normalized_resume = [_normalize(s) for s in resume_skills]
     normalized_jd = [_normalize(j) for j in jd_skills]
-    
-    resume_embs = get_embeddings(normalized_resume)
-    jd_embs = get_embeddings(normalized_jd)
 
-    for index, jd_skill in enumerate(jd_skills):
+    res_emb= get_embeddings(normalized_resume)
+    jd_emb = get_embeddings(normalized_jd)
+
+    lower_resume = [s.lower() for s in resume_skills]
+
+    
+    for index , skill in enumerate(jd_skills):
         weight = 2 if index < 3 else 1
         total_points += weight
 
-        if jd_skill.lower() in [s.lower() for s in resume_skills]:
-            matched_skills.append(jd_skill)
+
+        if skill.lower() in lower_resume:
+            matched_skill.append(skill)
             earned_points += weight
             continue
 
-        if is_semantic_match(jd_embs[index], resume_embs):
-            matched_skills.append(jd_skill)
-            earned_points += weight
-        else:
-            missing_skills.append(jd_skill)
 
-    match_percentage = int((earned_points / total_points) * 100) if total_points > 0 else 0
-    return matched_skills, missing_skills, match_percentage
+        if normalized_jd[index] in normalized_resume:
+            matched_skill.append(skill)
+            earned_points += weight
+            continue
+
+
+
+        
+        if is_semantic_match(jd_emb[index] , res_emb):
+            matched_skill.append(skill)
+            earned_points += weight
+            continue
+        else:
+            missing_skills.append(skill)
+
+    match_percentage = float((earned_points / total_points) * 100) if total_points > 0 else 0
+    return matched_skill , missing_skills , match_percentage
