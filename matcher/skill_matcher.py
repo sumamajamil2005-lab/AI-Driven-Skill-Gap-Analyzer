@@ -268,4 +268,7 @@ def skill_matcher(jd_skills , resume_skills):
 
             
     match_percentage = float((earned_points / total_points) * 100) if total_points > 0 else 0
-    return matched_skill , missing_skills , match_percentage
+    try:
+        return matched_skill , missing_skills , match_percentage
+    except:
+        return "Incomplete output"
