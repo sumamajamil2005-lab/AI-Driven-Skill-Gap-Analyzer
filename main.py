@@ -10,10 +10,11 @@ from additional.skill_level import get_skill_level
 from additional.extra_support import extract_and_save_resume
 
 def main():
-    MASTER_SKILLS = "skills/skill_lists.txt"
-    JD_FILE = "data/job_description.txt"
-    RESUME_FILE = "data/resume.txt"
-    REPORT_FILE = "output/report.txt"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    MASTER_SKILLS = os.path.join(BASE_DIR, "skills", "skill_lists.txt")
+    JD_FILE = os.path.join(BASE_DIR, "data", "job_description.txt")
+    RESUME_FILE = os.path.join(BASE_DIR, "data", "resume.txt")
+    REPORT_FILE = os.path.join(BASE_DIR, "output", "report.txt")
 
 
 
@@ -65,12 +66,6 @@ def main():
                 valid_jd = generic_parser(JD_FILE , content)
                 valid_resume = generic_parser(RESUME_FILE , content)
                 matched , missed  , points = skill_matcher(valid_jd , valid_resume)
-                if not matched:
-                    st.write("Matched not here")
-                if not missed:
-                    st.write("Missed not here")
-                if not points:
-                    st.write("Points not here")
                 recommend = get_recommendation(points , missed)
                 level = get_skill_level(points)
                 Report_writer(REPORT_FILE , matched, missed , points,level , recommend, valid_jd )

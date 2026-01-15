@@ -1,5 +1,4 @@
 from pathlib import Path
-
 def file_loader(filepath):
     """
     Simplified & Robust Loader: 

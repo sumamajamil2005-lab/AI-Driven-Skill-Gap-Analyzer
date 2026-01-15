@@ -219,7 +219,7 @@ def skill_cleaner(skills_list , compare_list):
 def skill_matcher(jd_skills , resume_skills):
     if not jd_skills or not resume_skills:
         print("\nInvalid input! ")
-        return []
+        return [], [] , 0
     
     missing_skills = []
     matched_skill = []
@@ -268,7 +268,4 @@ def skill_matcher(jd_skills , resume_skills):
 
             
     match_percentage = float((earned_points / total_points) * 100) if total_points > 0 else 0
-    try:
-        return matched_skill , missing_skills , match_percentage
-    except:
-        return [] , [], []
+    return matched_skill , missing_skills , match_percentage
