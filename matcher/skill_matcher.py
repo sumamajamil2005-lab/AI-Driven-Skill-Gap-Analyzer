@@ -271,4 +271,4 @@ def skill_matcher(jd_skills , resume_skills):
     try:
         return matched_skill , missing_skills , match_percentage
     except:
-        return "Incomplete output"
+        return [] , [], []
