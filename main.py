@@ -18,17 +18,12 @@ def main():
 
     st.set_page_config(page_title="Skill Gap Analyzer", layout="centered")
     with st.sidebar:
-        st.sidebar.image("https://img.icons8.com/neon/96/source-code.png", width=50) # Ek cool icon
         st.markdown("---")
-        st.markdown("""
-    <div style="text-align: center; padding: 10px; border-radius: 10px; background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
-        <p style="margin: 0; font-size: 0.8rem; color: #888;">DEVELOPED BY</p>
-        <p style="margin: 0; font-size: 1.2rem; font-weight: bold; color: #00d4ff; letter-spacing: 2px;">SUMAMA-DEV</p>
-        <p style="margin: 0; font-size: 0.7rem; color: #555;">v2.0 | Advanced Skill Gap Analyzer</p>
-    </div>
-    """, unsafe_allow_html=True)
+        st.title("SUMAMA-DEV")
+        st.caption("v1.0 | Advanced Skill Gap Analyzer")
         st.markdown("---")
-        st.info("Tip: High accuracy ke liye PDF text clear hona chahiye.")
+    
+        st.info("Built with Python & Streamlit")
     
 
     st.title("Skill Gap Analyzer")
