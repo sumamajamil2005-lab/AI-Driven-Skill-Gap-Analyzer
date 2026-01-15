@@ -17,6 +17,19 @@ REPORT_FILE = os.path.join(BASE_DIR, "output", "report.txt")
 def main():
 
     st.set_page_config(page_title="Skill Gap Analyzer", layout="centered")
+    with st.sidebar:
+        st.sidebar.image("https://img.icons8.com/neon/96/source-code.png", width=50) # Ek cool icon
+        st.markdown("---")
+        st.markdown("""
+    <div style="text-align: center; padding: 10px; border-radius: 10px; background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+        <p style="margin: 0; font-size: 0.8rem; color: #888;">DEVELOPED BY</p>
+        <p style="margin: 0; font-size: 1.2rem; font-weight: bold; color: #00d4ff; letter-spacing: 2px;">SUMAMA-DEV</p>
+        <p style="margin: 0; font-size: 0.7rem; color: #555;">v2.0 | Advanced Skill Gap Analyzer</p>
+    </div>
+    """, unsafe_allow_html=True)
+        st.markdown("---")
+        st.info("Tip: High accuracy ke liye PDF text clear hona chahiye.")
+    
 
     st.title("Skill Gap Analyzer")
 
@@ -55,11 +68,11 @@ def main():
             st.success(f"Resume text extracted and saved to 'data/resume.txt'!")
             
             # --- FINAL TRIGGER ---
-            if st.button("🚀 Analyze Skill Gap Now"):
-                st.info("Analysis report is being generated...")
+            if st.button("Analyze Skill Gap Now"):
+                st.info("Analysis in progress...")
                 content = file_loader(MASTER_SKILLS)
                 if not content:
-                    st.error(f"Master Skills file nahi mili! Check path: {MASTER_SKILLS}")
+                    st.error(f"Master Skills not found! ")
                     return
                 valid_jd = generic_parser(JD_FILE , content)
                 valid_resume = generic_parser(RESUME_FILE , content)
@@ -67,6 +80,16 @@ def main():
                 recommend = get_recommendation(points , missed)
                 level = get_skill_level(points)
                 Report_writer(REPORT_FILE , matched, missed , points,level , recommend, valid_jd )
+
+                with open(REPORT_FILE, "r", encoding="utf-8") as file:
+                    report_content = file.read() # File ka sara mal read karlo
+
+                st.download_button(
+                label="📥 Download Full Analysis Report",
+                data=report_content,
+                file_name="Skill_Gap_Analysis.txt",
+                mime="text/plain"
+                )
 
 
                 st.divider()
@@ -91,16 +114,10 @@ def main():
                     with c1:
                         st.write("### ✅ Matched")
                         if matched:
-                            matched_names = [s['name'] for s in matched]
-                            st.write(f"\n-> MATCHED SKILLS: {', '.join(matched_names)}\n")
-                
-                            full_matches = [s['name'] for s in matched if s['type'] == 'Full']
-                            partial_matches = [s['name'] for s in matched if s['type'] == 'Partial']
-                            semantic_matches = [s['name'] for s in matched if s['type'] == 'Semantic']
-
-                            st.write("   ∟ FULL MATCH: " + (", ".join(full_matches) if full_matches else "None") + "\n")
-                            st.write("   ∟ PARTIAL MATCH: " + (", ".join(partial_matches) if partial_matches else "None") + "\n")
-                            st.write("   ∟ CONCEPTUAL (AI): " + (", ".join(semantic_matches) if semantic_matches else "None") + "\n")
+                            cols = st.columns(len(matched) if len(matched) < 5 else 5) # Max 5 tags per row
+                            for i, skill in enumerate(matched):
+                                with cols[i % 5]:
+                                    st.markdown(f"[:white_check_mark: {skill['name']}](#)", help=f"Match Type: {skill['type']}")
                         else:
                             st.write("None")
 
@@ -112,10 +129,29 @@ def main():
                             st.write(", ".join(missed_names))
                         else:
                             st.write("None")
+                # --- RESULTS SECTION MEIN YE ADD KARO ---
+                st.divider()
+                st.subheader("📌 Strategic Insights")
+
+                with st.container(border=True):
+                    # Primary Skills
+                    primary = valid_jd[:3]
+                    st.markdown(f"#### 🎯 Primary Requirements")
+                    st.write(f"These are the non-negotiables: **{', '.join(primary)}**")
+                    
+                    st.divider()
+                    
+                    # Professional Notes
+                    st.markdown("#### 📝 Professional Notes")
+                    st.info("""
+                    * **Weighted Matching:** Primary skills carry 10pts weightage while others carry 5pts.
+                    * **Context Matters:** Ensure matched keywords appear in your project context, not just as a list.
+                    * **Semantic Power:** If a skill is marked 'Conceptual (AI)', it means we found a similar meaning, even if the word was different.
+                    """)
 
                             
 
-                    st.success(f"✅ Detailed report saved to: `output/report.txt`")
+                    st.toast('Report is ready for download!', icon='🚀')
 
                 st.divider()
 
