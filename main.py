@@ -10,7 +10,7 @@ from additional.skill_level import get_skill_level
 from additional.extra_support import extract_and_save_resume
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MASTER_SKILLS = os.path.join(BASE_DIR, "skills", "skill_lists.txt")
+MASTER_SKILLS = os.path.join(BASE_DIR, "skills", "skills_list.txt")
 JD_FILE = os.path.join(BASE_DIR, "data", "job_description.txt")
 RESUME_FILE = os.path.join(BASE_DIR, "data", "resume.txt")
 REPORT_FILE = os.path.join(BASE_DIR, "output", "report.txt")
