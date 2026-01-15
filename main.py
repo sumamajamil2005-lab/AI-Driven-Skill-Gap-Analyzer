@@ -64,12 +64,13 @@ def main():
                 content = file_loader(MASTER_SKILLS)
                 valid_jd = generic_parser(JD_FILE , content)
                 valid_resume = generic_parser(RESUME_FILE , content)
-                result = skill_matcher(valid_jd , valid_resume)
-                if result and len(result) == 3:
-                    matched , missed  , points = result
-                else:
-                    st.write("Info was incomplete!!")
-                    st.stop()
+                matched , missed  , points = skill_matcher(valid_jd , valid_resume)
+                if not matched:
+                    st.write("Matched not here")
+                if not missed:
+                    st.write("Missed not here")
+                if not points:
+                    st.write("Points not here")
                 recommend = get_recommendation(points , missed)
                 level = get_skill_level(points)
                 Report_writer(REPORT_FILE , matched, missed , points,level , recommend, valid_jd )
