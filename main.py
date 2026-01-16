@@ -76,7 +76,7 @@ def main():
                 level = get_skill_level(points)
                 Report_writer(REPORT_FILE , matched, missed , points,level , recommend, valid_jd )
 
-                with open(REPORT_FILE, "r", encoding="utf-8") as file:
+                with open(REPORT_FILE, "r", encoding="utf-8-sig") as file:
                     report_content = file.read() # File ka sara mal read karlo
 
 
@@ -146,15 +146,15 @@ def main():
                     """)
 
                             
-                st.download_button(
-                label="📥 Download Full Analysis Report",
-                data=report_content,
-                file_name="Skill_Gap_Analysis.txt",
-                mime="text/plain"
-                )
-                st.toast('Report is ready for download!')
+                    st.download_button(
+                    label="📥 Download Full Analysis Report",
+                    data=report_content,
+                    file_name="Skill_Gap_Analysis.txt",
+                    mime="text/plain"
+                    )
+                    st.toast('Report is ready for download!')
 
-                st.divider()
+                    st.divider()
 
         else:
             st.error("Could not extract text. Check the file format.")
