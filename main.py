@@ -109,10 +109,17 @@ def main():
                     with c1:
                         st.write("### ✅ Matched")
                         if matched:
-                            cols = st.columns(len(matched) if len(matched) < 5 else 5) # Max 5 tags per row
                             for i, skill in enumerate(matched):
-                                with cols[i % 5]:
-                                    st.markdown(f"[:white_check_mark: {skill['name']}](#)", help=f"Match Type: {skill['type']}")
+                                matched_names = [s['name'] for s in matched]
+                            st.write(f"\n-> MATCHED SKILLS: {', '.join(matched_names)}\n")
+                
+                            full_matches = [s['name'] for s in matched if s['type'] == 'Full']
+                            partial_matches = [s['name'] for s in matched if s['type'] == 'Partial']
+                            semantic_matches = [s['name'] for s in matched if s['type'] == 'Semantic']
+
+                            st.write("   ∟ FULL MATCH: " + (", ".join(full_matches) if full_matches else "None") + "\n")
+                            st.write("   ∟ PARTIAL MATCH: " + (", ".join(partial_matches) if partial_matches else "None") + "\n")
+                            st.write("   ∟ CONCEPTUAL (AI): " + (", ".join(semantic_matches) if semantic_matches else "None") + "\n")
                         else:
                             st.write("None")
 
