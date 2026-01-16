@@ -79,12 +79,6 @@ def main():
                 with open(REPORT_FILE, "r", encoding="utf-8") as file:
                     report_content = file.read() # File ka sara mal read karlo
 
-                st.download_button(
-                label="📥 Download Full Analysis Report",
-                data=report_content,
-                file_name="Skill_Gap_Analysis.txt",
-                mime="text/plain"
-                )
 
 
                 st.divider()
@@ -133,18 +127,18 @@ def main():
                             st.write("None")
                 # --- RESULTS SECTION MEIN YE ADD KARO ---
                 st.divider()
-                st.subheader("📌 Strategic Insights")
+                st.subheader("Strategic Insights")
 
                 with st.container(border=True):
                     # Primary Skills
                     primary = valid_jd[:3]
-                    st.markdown(f"#### 🎯 Primary Requirements")
+                    st.markdown(f"#### Primary Requirements")
                     st.write(f"These are the non-negotiables: **{', '.join(primary)}**")
                     
                     st.divider()
                     
                     # Professional Notes
-                    st.markdown("#### 📝 Professional Notes")
+                    st.markdown("#### Notes")
                     st.info("""
                     * **Weighted Matching:** Primary skills carry 10pts weightage while others carry 5pts.
                     * **Context Matters:** Ensure matched keywords appear in your project context, not just as a list.
@@ -152,8 +146,13 @@ def main():
                     """)
 
                             
-
-                    st.toast('Report is ready for download!', icon='🚀')
+                st.download_button(
+                label="📥 Download Full Analysis Report",
+                data=report_content,
+                file_name="Skill_Gap_Analysis.txt",
+                mime="text/plain"
+                )
+                st.toast('Report is ready for download!')
 
                 st.divider()
 
